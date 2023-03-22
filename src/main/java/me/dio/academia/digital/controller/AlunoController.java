@@ -22,9 +22,19 @@ public class AlunoController {
         return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public Aluno getOneAluno(@PathVariable Long id){
+        return service.get(id);
+    }
+
     @PostMapping
     public Aluno create(@Valid @RequestBody AlunoForm form){
         return service.create(form);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAluno(@PathVariable Long id){
+        service.delete(id);
     }
 
     @GetMapping("/avaliacoes/{id}")

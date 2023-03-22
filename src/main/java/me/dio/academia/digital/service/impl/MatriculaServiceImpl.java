@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class MatriculaServiceImpl implements IMatriculaService {
     @Autowired
@@ -28,7 +30,8 @@ public class MatriculaServiceImpl implements IMatriculaService {
 
     @Override
     public Matricula get(Long id) {
-        return null;
+        Optional<Matricula> matriculaOptional = matriculaRepository.findById(id);
+        return matriculaOptional.get();
     }
 
     @Override
