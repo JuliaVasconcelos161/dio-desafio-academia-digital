@@ -24,8 +24,8 @@ public class MatriculaController {
         return matriculaService.create(form);
     }
     @GetMapping
-    public List<Matricula> getAll(){
-        return matriculaService.getAll();
+    public List<Matricula> getAll(@RequestParam(value="bairro", required = false)String bairro){
+        return matriculaService.getAll(bairro);
     }
 
     @GetMapping("/{id}")

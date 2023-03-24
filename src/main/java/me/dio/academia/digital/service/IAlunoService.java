@@ -4,8 +4,11 @@ import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.entity.form.AlunoForm;
 import me.dio.academia.digital.entity.form.AlunoUpdateForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAlunoService {
   /**
@@ -20,13 +23,15 @@ public interface IAlunoService {
    * @param id - id do Aluno que será exibido.
    * @return - Aluno de acordo com o Id fornecido.
    */
-  Aluno get(Long id);
+  Optional<Aluno> get(Long id);
 
   /**
    * Retorna todos os Alunos que estão no banco de dados.
    * @return - Uma lista os Alunos que estão salvas no DB.
    */
-  List<Aluno> getAll();
+  List<Aluno> getAll(String dataDeNascimento);
+
+  Page<Aluno> getAllPaginado(Pageable pageable);
 
   /**
    * Atualiza o Aluno.
