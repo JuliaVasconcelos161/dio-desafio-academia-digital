@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -75,13 +76,9 @@ public class AlunoServiceImpl implements IAlunoService {
        if(alunoOptional.isPresent()){
            Aluno aluno = alunoOptional.get();
            this.deleteMatriculaVinculada(aluno);
-           if(!aluno.getAvaliacoes().isEmpty()){
-               List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
-               avaliacoes.forEach(avaliacaoFisica -> avaliacaoFisicaRepository.delete(avaliacaoFisica));
-           } else {
-               repository.delete(aluno);
-           }
-
+//           avaliacaoFisicaRepository.deleteAvaliacoesAluno(aluno.getId());
+//           this.deleteAvaliacoesVinculada(aluno);
+           repository.delete(aluno);
        }else {
            throw new NoSuchElementException("O aluno com o id " + id + " não foi encontrado.");
        }
@@ -89,17 +86,26 @@ public class AlunoServiceImpl implements IAlunoService {
     }
 
     public List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id) {
-        Aluno aluno = repository.findById(id).get();
-        return aluno.getAvaliacoes();
+        Optional<Aluno> alunoOptional = repository.findById(id);
+        if(alunoOptional.isEmpty()){
+            return null;
+        }
+        return alunoOptional.get().getAvaliacoes();
     }
 
     private void deleteMatriculaVinculada(Aluno aluno){
         List<Matricula> matriculas = matriculaRepository.findAll();
         for(Matricula m: matriculas){
             if(Objects.equals(m.getAluno().getId(), aluno.getId())){
-                matriculaRepository.delete(m);
+                matriculaRepository.deleteMatriculaAluno(aluno.getId());
             }
         }
 
+    }
+
+    private void deleteAvaliacoesVinculada(Aluno aluno){
+        if(!aluno.getAvaliacoes().isEmpty()){
+
+        }
     }
 }

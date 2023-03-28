@@ -53,8 +53,11 @@ public class AlunoController {
     }
 
     @GetMapping("/avaliacoes/{id}")
-    public List<AvaliacaoFisica> getAllAvaliacaoFisicaId(@PathVariable Long id){
-        return service.getAllAvaliacaoFisicaId(id);
+    public ResponseEntity<Object> getAllAvaliacaoFisicaId(@PathVariable Long id){
+        if(service.getAllAvaliacaoFisicaId(id) == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com id " + id);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllAvaliacaoFisicaId(id));
     }
 
 }
