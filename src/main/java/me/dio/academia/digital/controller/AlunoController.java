@@ -48,8 +48,17 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAluno(@PathVariable Long id){
-        service.delete(id);
+    public ResponseEntity<Object> deleteAluno(@PathVariable Long id){
+        Optional<Aluno> alunoOptional = service.get(id);
+        if(alunoOptional.isPresent()){
+            Aluno aluno = alunoOptional.get();
+            if(aluno.getAvaliacoes().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Exclua as avaliações do aluno primeiro.");
+            } else if(service.isAlunoAssociadoMatricula(aluno)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Exclua a matrícula do aluno primeiro.");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com esse id.");
     }
 
     @GetMapping("/avaliacoes/{id}")

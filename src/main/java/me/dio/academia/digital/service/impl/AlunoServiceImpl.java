@@ -71,18 +71,8 @@ public class AlunoServiceImpl implements IAlunoService {
     }
 
     @Override
-    public void delete(Long id) {
-       Optional<Aluno> alunoOptional = repository.findById(id);
-       if(alunoOptional.isPresent()){
-           Aluno aluno = alunoOptional.get();
-           this.deleteMatriculaVinculada(aluno);
-//           avaliacaoFisicaRepository.deleteAvaliacoesAluno(aluno.getId());
-//           this.deleteAvaliacoesVinculada(aluno);
-           repository.delete(aluno);
-       }else {
-           throw new NoSuchElementException("O aluno com o id " + id + " não foi encontrado.");
-       }
-
+    public void delete(Aluno aluno) {
+        repository.delete(aluno);
     }
 
     public List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id) {
@@ -93,19 +83,29 @@ public class AlunoServiceImpl implements IAlunoService {
         return alunoOptional.get().getAvaliacoes();
     }
 
-    private void deleteMatriculaVinculada(Aluno aluno){
+//    private void deleteMatriculaVinculada(Aluno aluno){
+//        List<Matricula> matriculas = matriculaRepository.findAll();
+//        for(Matricula m: matriculas){
+//            if(Objects.equals(m.getAluno().getId(), aluno.getId())){
+//                matriculaRepository.deleteMatriculaAluno(aluno.getId());
+//            }
+//        }
+//
+//    }
+
+//    private void deleteAvaliacoesVinculada(Aluno aluno){
+//        if(!aluno.getAvaliacoes().isEmpty()){
+//            avaliacaoFisicaRepository.deleteAvaliacoesAluno(aluno.getId());
+//        }
+//    }
+
+    public Boolean isAlunoAssociadoMatricula(Aluno aluno){
         List<Matricula> matriculas = matriculaRepository.findAll();
         for(Matricula m: matriculas){
             if(Objects.equals(m.getAluno().getId(), aluno.getId())){
-                matriculaRepository.deleteMatriculaAluno(aluno.getId());
+                return true;
             }
         }
-
-    }
-
-    private void deleteAvaliacoesVinculada(Aluno aluno){
-        if(!aluno.getAvaliacoes().isEmpty()){
-
-        }
+        return false;
     }
 }
