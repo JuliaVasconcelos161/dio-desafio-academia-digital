@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -93,11 +92,10 @@ public class AlunoServiceImpl implements IAlunoService {
 //
 //    }
 
-//    private void deleteAvaliacoesVinculada(Aluno aluno){
-//        if(!aluno.getAvaliacoes().isEmpty()){
-//            avaliacaoFisicaRepository.deleteAvaliacoesAluno(aluno.getId());
-//        }
-//    }
+    public void deleteAllAvaliacoesVinculadas(Aluno aluno){
+        List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
+        avaliacoes.forEach(avaliacaoFisica -> avaliacaoFisicaRepository.deleteById(avaliacaoFisica.getId()));
+    }
 
     public Boolean isAlunoAssociadoMatricula(Aluno aluno){
         List<Matricula> matriculas = matriculaRepository.findAll();
