@@ -20,6 +20,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Service
 public class AlunoServiceImpl implements IAlunoService {
@@ -95,6 +97,18 @@ public class AlunoServiceImpl implements IAlunoService {
     public void deleteAllAvaliacoesVinculadas(Aluno aluno){
         List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
         avaliacoes.forEach(avaliacaoFisica -> avaliacaoFisicaRepository.deleteById(avaliacaoFisica.getId()));
+    }
+
+    public void deleteOneAvaliacaoVinculada(Aluno aluno, Long idAvaliacao){
+        List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
+        avaliacoes.forEach(new Consumer<AvaliacaoFisica>() {
+            @Override
+            public void accept(AvaliacaoFisica avaliacaoFisica) {
+                if(Objects.equals(avaliacaoFisica.getId(), idAvaliacao)){
+                    avaliacaoFisicaRepository.deleteById(idAvaliacao);
+                }
+            }
+        });
     }
 
     public Boolean isAlunoAssociadoMatricula(Aluno aluno){
