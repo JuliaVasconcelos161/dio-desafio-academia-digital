@@ -16,12 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
+
 
 @Service
 public class AlunoServiceImpl implements IAlunoService {
@@ -35,6 +35,7 @@ public class AlunoServiceImpl implements IAlunoService {
     @Autowired
     private MatriculaRepository matriculaRepository;
 
+    @Transactional
     @Override
     public Aluno create(AlunoForm form) {
         Aluno aluno = new Aluno();
@@ -67,10 +68,13 @@ public class AlunoServiceImpl implements IAlunoService {
     }
 
     @Override
-    public Aluno update(Long id, AlunoUpdateForm formUpdate) {
-        return null;
+    public Aluno update(Aluno aluno, AlunoUpdateForm formUpdate) {
+        aluno.setNome(formUpdate.getNome());
+        aluno.setBairro(formUpdate.getBairro());
+        aluno.setDataDeNascimento(formUpdate.getDataDeNascimento());
+        return repository.save(aluno);
     }
-
+    @Transactional
     @Override
     public void delete(Aluno aluno) {
         repository.delete(aluno);
@@ -93,20 +97,17 @@ public class AlunoServiceImpl implements IAlunoService {
 //        }
 //
 //    }
-
+    @Transactional
     public void deleteAllAvaliacoesVinculadas(Aluno aluno){
         List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
         avaliacoes.forEach(avaliacaoFisica -> avaliacaoFisicaRepository.deleteById(avaliacaoFisica.getId()));
     }
-
+    @Transactional
     public void deleteOneAvaliacaoVinculada(Aluno aluno, Long idAvaliacao){
         List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
-        avaliacoes.forEach(new Consumer<AvaliacaoFisica>() {
-            @Override
-            public void accept(AvaliacaoFisica avaliacaoFisica) {
-                if(Objects.equals(avaliacaoFisica.getId(), idAvaliacao)){
-                    avaliacaoFisicaRepository.deleteById(idAvaliacao);
-                }
+        avaliacoes.forEach(avaliacaoFisica -> {
+            if(Objects.equals(avaliacaoFisica.getId(), idAvaliacao)){
+                avaliacaoFisicaRepository.deleteById(idAvaliacao);
             }
         });
     }

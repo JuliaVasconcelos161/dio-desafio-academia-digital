@@ -3,6 +3,7 @@ package me.dio.academia.digital.controller;
 import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.entity.form.AlunoForm;
+import me.dio.academia.digital.entity.form.AlunoUpdateForm;
 import me.dio.academia.digital.service.IAlunoService;
 import me.dio.academia.digital.service.impl.AlunoServiceImpl;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
@@ -49,7 +50,17 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.OK).body(service.create(form));
     }
 
-    @Transactional
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateAluno(@PathVariable Long id, @Valid @RequestBody AlunoUpdateForm formUpdate){
+        Optional<Aluno> alunoOptional = service.get(id);
+        if(alunoOptional.isPresent()){
+            Aluno aluno = alunoOptional.get();
+            return ResponseEntity.status(HttpStatus.OK).body(service.update(aluno,formUpdate));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + id);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAluno(@PathVariable Long id){
         Optional<Aluno> alunoOptional = service.get(id);
@@ -74,7 +85,7 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllAvaliacaoFisicaId(id));
     }
 
-    @Transactional
+
     @DeleteMapping("/avaliacoes/{idAluno}")
     public ResponseEntity<Object> deleteAllAvaliacoesAluno(@PathVariable Long idAluno){
         Optional<Aluno> alunoOptional = service.get(idAluno);
@@ -90,7 +101,7 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com esse id.");
     }
 
-    @Transactional
+
     @DeleteMapping("/avaliacoes/{idAluno}/{idAvaliacao}")
     public ResponseEntity<Object> deleteOneAvaliacaoAluno(@PathVariable Long idAluno, @PathVariable Long idAvaliacao){
         Optional<Aluno> alunoOptional = service.get(idAluno);

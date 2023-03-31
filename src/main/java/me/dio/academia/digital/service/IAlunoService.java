@@ -40,7 +40,7 @@ public interface IAlunoService {
    * no banco de dados.
    * @return - Aluno recém-atualizado.
    */
-  Aluno update(Long id, AlunoUpdateForm formUpdate);
+  Aluno update(Aluno aluno, AlunoUpdateForm formUpdate);
 
   /**
    * Deleta um Aluno específico.
