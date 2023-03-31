@@ -78,7 +78,7 @@ public class AlunoController {
     }
 
     @GetMapping("/avaliacoes/{id}")
-    public ResponseEntity<Object> getAllAvaliacaoFisicaId(@PathVariable Long id){
+    public ResponseEntity<Object> getAllAvaliacaoFisica(@PathVariable Long id){
         if(service.getAllAvaliacaoFisicaId(id) == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com id " + id);
         }

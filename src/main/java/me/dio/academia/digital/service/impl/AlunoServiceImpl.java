@@ -87,16 +87,6 @@ public class AlunoServiceImpl implements IAlunoService {
         }
         return alunoOptional.get().getAvaliacoes();
     }
-
-//    private void deleteMatriculaVinculada(Aluno aluno){
-//        List<Matricula> matriculas = matriculaRepository.findAll();
-//        for(Matricula m: matriculas){
-//            if(Objects.equals(m.getAluno().getId(), aluno.getId())){
-//                matriculaRepository.deleteMatriculaAluno(aluno.getId());
-//            }
-//        }
-//
-//    }
     @Transactional
     public void deleteAllAvaliacoesVinculadas(Aluno aluno){
         List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();

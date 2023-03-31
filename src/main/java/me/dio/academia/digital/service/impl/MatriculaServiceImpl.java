@@ -9,7 +9,9 @@ import me.dio.academia.digital.service.IMatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -46,6 +48,21 @@ public class MatriculaServiceImpl implements IMatriculaService {
 
     @Override
     public void delete(Long id) {
+
+    }
+
+    @Transactional
+    public void deleteMatriculaAluno(Aluno aluno){
+        List<Matricula> matriculas = matriculaRepository.findAll();
+        if(!matriculas.isEmpty()){
+            for(Matricula m: matriculas){
+                if(Objects.equals(m.getAluno().getId(), aluno.getId())){
+                    matriculaRepository.deleteMatriculaAluno(m.getAluno().getId());
+                }
+            }
+        }else{
+            throw new IllegalArgumentException();
+        }
 
     }
 }
