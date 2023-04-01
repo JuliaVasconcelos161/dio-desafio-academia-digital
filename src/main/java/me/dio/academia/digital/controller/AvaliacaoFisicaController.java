@@ -54,4 +54,14 @@ public class AvaliacaoFisicaController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma avaliação com o id " + id);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id){
+        Optional<AvaliacaoFisica> avaliacaoFisicaOptional = service.get(id);
+        if(avaliacaoFisicaOptional.isPresent()){
+            AvaliacaoFisica avaliacaoFisica = avaliacaoFisicaOptional.get();
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Avaliação deletada com sucesso.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma avaliação com o id " + id);
+    }
 }

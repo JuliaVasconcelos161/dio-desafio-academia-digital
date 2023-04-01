@@ -56,7 +56,7 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
     @Transactional
     @Override
     public void delete(Long id) {
-
+        repository.deleteById(id);
     }
 
 }
