@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class MatriculaServiceImpl implements IMatriculaService {
     @Autowired
-    private MatriculaRepository matriculaRepository;
+    private MatriculaRepository repository;
 
     @Autowired
     private AlunoRepository alunoRepository;
@@ -25,44 +25,60 @@ public class MatriculaServiceImpl implements IMatriculaService {
     @Override
     public Matricula create(MatriculaForm form) {
         Matricula matricula = new Matricula();
-        Aluno aluno = alunoRepository.findById(form.getAlunoId()).get();
-        matricula.setAluno(aluno);
-        return matriculaRepository.save(matricula);
+        Optional<Aluno> alunoOptional = alunoRepository.findById(form.getAlunoId());
+        if(alunoOptional.isPresent()){
+            matricula.setAluno(alunoOptional.get());
+            return repository.save(matricula);
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
-    public Matricula get(Long id) {
-        Optional<Matricula> matriculaOptional = matriculaRepository.findById(id);
-        return matriculaOptional.get();
+    public Optional<Matricula> get(Long id) {
+        Optional<Matricula> matriculaOptional = repository.findById(id);
+        return matriculaOptional;
     }
 
     @Override
     public List<Matricula> getAll(String bairro) {
         if(bairro == null){
-            return matriculaRepository.findAll();
+            return repository.findAll();
         } else {
-            return matriculaRepository.findAlunosMatriculadosBairro(bairro);
+            return repository.findAlunosMatriculadosBairro(bairro);
         }
 
     }
-
+    @Transactional
     @Override
     public void delete(Long id) {
-
+        repository.deleteById(id);
     }
 
     @Transactional
     public void deleteMatriculaAluno(Aluno aluno){
-        List<Matricula> matriculas = matriculaRepository.findAll();
-        if(!matriculas.isEmpty()){
-            for(Matricula m: matriculas){
-                if(Objects.equals(m.getAluno().getId(), aluno.getId())){
-                    matriculaRepository.deleteMatriculaAluno(m.getAluno().getId());
-                }
-            }
+        if(this.isAlunoVinculadoMatricula(aluno)){
+            repository.deleteMatriculaAluno(aluno.getId());
         }else{
             throw new IllegalArgumentException();
         }
+    }
 
+    public Matricula getMatriculaAluno(Aluno aluno){
+        if(this.isAlunoVinculadoMatricula(aluno)){
+            return repository.findMatriculaAluno(aluno.getId());
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private Boolean isAlunoVinculadoMatricula(Aluno aluno){
+        List<Matricula> matriculas = repository.findAll();
+        if(!matriculas.isEmpty()){
+            for(Matricula m: matriculas){
+                if(Objects.equals(m.getAluno().getId(), aluno.getId())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
