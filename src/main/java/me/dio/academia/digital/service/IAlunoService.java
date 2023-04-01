@@ -24,6 +24,12 @@ public interface IAlunoService {
 
   void delete(Aluno aluno);
 
-  List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id);
+  List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long idAluno);
+
+  void deleteAllAvaliacoesVinculadas(Aluno aluno);
+
+  void deleteOneAvaliacaoVinculada(Aluno aluno, Long idAvaliacao);
+
+  Boolean isAlunoAssociadoMatricula(Aluno aluno);
 
 }

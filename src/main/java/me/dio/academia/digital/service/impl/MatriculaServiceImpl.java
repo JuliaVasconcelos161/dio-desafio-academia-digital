@@ -22,6 +22,7 @@ public class MatriculaServiceImpl implements IMatriculaService {
     @Autowired
     private AlunoRepository alunoRepository;
 
+    @Transactional
     @Override
     public Matricula create(MatriculaForm form) {
         Matricula matricula = new Matricula();
@@ -54,20 +55,22 @@ public class MatriculaServiceImpl implements IMatriculaService {
         repository.deleteById(id);
     }
 
+    @Override
+    public Matricula getMatriculaAluno(Aluno aluno){
+        if(this.isAlunoVinculadoMatricula(aluno)){
+            return repository.findMatriculaAluno(aluno.getId());
+        }
+        throw new IllegalArgumentException();
+    }
+
     @Transactional
+    @Override
     public void deleteMatriculaAluno(Aluno aluno){
         if(this.isAlunoVinculadoMatricula(aluno)){
             repository.deleteMatriculaAluno(aluno.getId());
         }else{
             throw new IllegalArgumentException();
         }
-    }
-
-    public Matricula getMatriculaAluno(Aluno aluno){
-        if(this.isAlunoVinculadoMatricula(aluno)){
-            return repository.findMatriculaAluno(aluno.getId());
-        }
-        throw new IllegalArgumentException();
     }
 
     private Boolean isAlunoVinculadoMatricula(Aluno aluno){

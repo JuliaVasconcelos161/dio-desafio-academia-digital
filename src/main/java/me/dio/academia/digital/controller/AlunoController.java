@@ -26,28 +26,28 @@ public class AlunoController {
     @Autowired
     private AlunoServiceImpl service;
 
-    @GetMapping
-    public ResponseEntity<Object> getAllAlunos(@RequestParam(value = "dataDeNascimento", required = false) String dataDeNascimento){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll(dataDeNascimento));
-    }
-
-    @GetMapping("/page")
-    public ResponseEntity<Page<Aluno>> getAllAlunosPaginado(@PageableDefault(page = 0, size = 3, sort = "id") Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllPaginado(pageable));
+    @PostMapping
+    public ResponseEntity<Aluno> create(@Valid @RequestBody AlunoForm form){
+        return ResponseEntity.status(HttpStatus.OK).body(service.create(form));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOneAluno(@PathVariable Long id){
         Optional<Aluno> alunoOptional = service.get(id);
         if(alunoOptional.isEmpty()){
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + id);
         }
         return ResponseEntity.status(HttpStatus.OK).body(alunoOptional.get());
     }
 
-    @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody AlunoForm form){
-        return ResponseEntity.status(HttpStatus.OK).body(service.create(form));
+    @GetMapping
+    public ResponseEntity<List<Aluno>> getAllAlunos(@RequestParam(value = "dataDeNascimento", required = false) String dataDeNascimento){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAll(dataDeNascimento));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Aluno>> getAllAlunosPaginado(@PageableDefault(page = 0, size = 3, sort = "id") Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllPaginado(pageable));
     }
 
     @PutMapping("/{id}")
@@ -62,7 +62,7 @@ public class AlunoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteAluno(@PathVariable Long id){
+    public ResponseEntity<String> deleteAluno(@PathVariable Long id){
         Optional<Aluno> alunoOptional = service.get(id);
         if(alunoOptional.isPresent()){
             Aluno aluno = alunoOptional.get();
@@ -74,20 +74,20 @@ public class AlunoController {
             service.delete(aluno);
             return ResponseEntity.status(HttpStatus.OK).body("Aluno excluído com sucesso");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com esse id.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + id);
     }
 
-    @GetMapping("/avaliacoes/{id}")
-    public ResponseEntity<Object> getAllAvaliacaoFisica(@PathVariable Long id){
-        if(service.getAllAvaliacaoFisicaId(id) == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com id " + id);
+    @GetMapping("/avaliacoes/{idAluno}")
+    public ResponseEntity<Object> getAllAvaliacaoFisica(@PathVariable Long idAluno){
+        if(service.getAllAvaliacaoFisicaId(idAluno) == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + idAluno);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllAvaliacaoFisicaId(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllAvaliacaoFisicaId(idAluno));
     }
 
 
     @DeleteMapping("/avaliacoes/{idAluno}")
-    public ResponseEntity<Object> deleteAllAvaliacoesAluno(@PathVariable Long idAluno){
+    public ResponseEntity<String> deleteAllAvaliacoesAluno(@PathVariable Long idAluno){
         Optional<Aluno> alunoOptional = service.get(idAluno);
         if(alunoOptional.isPresent()){
             Aluno aluno = alunoOptional.get();
@@ -98,12 +98,12 @@ public class AlunoController {
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse aluno não possui avaliações.");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com esse id.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + idAluno);
     }
 
 
     @DeleteMapping("/avaliacoes/{idAluno}/{idAvaliacao}")
-    public ResponseEntity<Object> deleteOneAvaliacaoAluno(@PathVariable Long idAluno, @PathVariable Long idAvaliacao){
+    public ResponseEntity<String> deleteOneAvaliacaoAluno(@PathVariable Long idAluno, @PathVariable Long idAvaliacao){
         Optional<Aluno> alunoOptional = service.get(idAluno);
         if(alunoOptional.isPresent()){
             Aluno aluno = alunoOptional.get();
@@ -114,6 +114,6 @@ public class AlunoController {
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse aluno não possui avaliações.");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existe aluno com esse id.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + idAluno);
     }
 }

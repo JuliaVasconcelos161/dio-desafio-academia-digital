@@ -21,4 +21,6 @@ public class AvaliacaoFisicaController {
     public AvaliacaoFisica create(@Valid  @RequestBody AvaliacaoFisicaForm form){
         return service.create(form);
     }
+
+
 }
