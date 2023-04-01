@@ -11,11 +11,6 @@ public interface IAvaliacaoFisicaService {
 
   AvaliacaoFisica create(AvaliacaoFisicaForm form);
 
-  /**
-   * Retorna uma Avaliação Física que está no banco de dados de acordo com seu Id.
-   * @param id - id da Avaliação Física que será exibida.
-   * @return - Avaliação Física de acordo com o Id fornecido.
-   */
   Optional<AvaliacaoFisica> get(Long id);
 
   /**

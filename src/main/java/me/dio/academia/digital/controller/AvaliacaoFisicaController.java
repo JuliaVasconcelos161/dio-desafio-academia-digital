@@ -36,4 +36,9 @@ public class AvaliacaoFisicaController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma avaliação com o id " + id);
     }
 
+    @GetMapping
+    public ResponseEntity<Object> getAllAvaliacoes(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
+    }
+
 }
