@@ -10,43 +10,48 @@ import me.dio.academia.digital.service.IAvaliacaoFisicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
-public class AvaliacaoFisicaImpl implements IAvaliacaoFisicaService {
+public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
 
     @Autowired
-    private AvaliacaoFisicaRepository avaliacaoFisicaRepository;
+    private AvaliacaoFisicaRepository repository;
 
     @Autowired
     private AlunoRepository alunoRepository;
+    @Transactional
     @Override
     public AvaliacaoFisica create(AvaliacaoFisicaForm form) {
         AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica();
-        Aluno aluno = alunoRepository.findById(form.getAlunoId()).get();
-
-        avaliacaoFisica.setAluno(aluno);
-        avaliacaoFisica.setPeso(form.getPeso());
-        avaliacaoFisica.setAltura(form.getAltura());
-        return avaliacaoFisicaRepository.save(avaliacaoFisica);
+        Optional<Aluno> alunoOptional = alunoRepository.findById(form.getAlunoId());
+        if(alunoOptional.isPresent()){
+            avaliacaoFisica.setAluno(alunoOptional.get());
+            avaliacaoFisica.setPeso(form.getPeso());
+            avaliacaoFisica.setAltura(form.getAltura());
+            return repository.save(avaliacaoFisica);
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
-    public AvaliacaoFisica get(Long id) {
-        return null;
+    public Optional<AvaliacaoFisica> get(Long id) {
+        return repository.findById(id);
     }
 
     @Override
     public List<AvaliacaoFisica> getAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public AvaliacaoFisica update(Long id, AvaliacaoFisicaUpdateForm formUpdate) {
         return null;
     }
-
+    @Transactional
     @Override
     public void delete(Long id) {
 

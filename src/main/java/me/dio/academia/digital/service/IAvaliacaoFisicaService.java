@@ -5,13 +5,10 @@ import me.dio.academia.digital.entity.form.AvaliacaoFisicaForm;
 import me.dio.academia.digital.entity.form.AvaliacaoFisicaUpdateForm;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAvaliacaoFisicaService {
-  /**
-   * Cria uma Avaliação Física e salva no banco de dados.
-   * @param form - formulário referente aos dados para criação da Avaliação Física no banco de dados.
-   * @return - Avaliação Física recém-criada.
-   */
+
   AvaliacaoFisica create(AvaliacaoFisicaForm form);
 
   /**
@@ -19,7 +16,7 @@ public interface IAvaliacaoFisicaService {
    * @param id - id da Avaliação Física que será exibida.
    * @return - Avaliação Física de acordo com o Id fornecido.
    */
-  AvaliacaoFisica get(Long id);
+  Optional<AvaliacaoFisica> get(Long id);
 
   /**
    * Retorna todas as Avaliações Física que estão no banco de dados.
