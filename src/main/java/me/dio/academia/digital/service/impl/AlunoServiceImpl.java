@@ -30,9 +30,6 @@ public class AlunoServiceImpl implements IAlunoService {
     private AlunoRepository repository;
 
     @Autowired
-    private AvaliacaoFisicaRepository avaliacaoFisicaRepository;
-
-    @Autowired
     private MatriculaRepository matriculaRepository;
 
     @Transactional
@@ -59,7 +56,6 @@ public class AlunoServiceImpl implements IAlunoService {
             LocalDate localDate = LocalDate.parse(dataDeNascimento, JavaTimeUtils.LOCAL_DATE_FORMATTER);
             return repository.findByDataDeNascimento(localDate);
         }
-
     }
 
     @Override
@@ -80,16 +76,6 @@ public class AlunoServiceImpl implements IAlunoService {
         repository.delete(aluno);
     }
 
-    @Transactional
-    @Override
-    public void deleteOneAvaliacaoVinculada(Aluno aluno, Long idAvaliacao){
-        List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
-        avaliacoes.forEach(avaliacaoFisica -> {
-            if(Objects.equals(avaliacaoFisica.getId(), idAvaliacao)){
-                avaliacaoFisicaRepository.deleteById(idAvaliacao);
-            }
-        });
-    }
 
     public Boolean isAlunoAssociadoMatricula(Aluno aluno){
         List<Matricula> matriculas = matriculaRepository.findAll();

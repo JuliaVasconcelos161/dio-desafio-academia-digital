@@ -60,7 +60,6 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + id);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAluno(@PathVariable Long id){
         Optional<Aluno> alunoOptional = service.get(id);
@@ -76,19 +75,4 @@ public class AlunoController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + id);
     }
-
-//    @DeleteMapping("/avaliacoes/{idAluno}/{idAvaliacao}")
-//    public ResponseEntity<String> deleteOneAvaliacaoAluno(@PathVariable Long idAluno, @PathVariable Long idAvaliacao){
-//        Optional<Aluno> alunoOptional = service.get(idAluno);
-//        if(alunoOptional.isPresent()){
-//            Aluno aluno = alunoOptional.get();
-//            List<AvaliacaoFisica> avaliacoesFisicas = service.getAllAvaliacaoFisicaId(idAluno);
-//            if(!avaliacoesFisicas.isEmpty()){
-//                service.deleteOneAvaliacaoVinculada(aluno, idAvaliacao);
-//                return ResponseEntity.status(HttpStatus.OK).body("Avaliação excluída com sucesso.");
-//            }
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse aluno não possui avaliações.");
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + idAluno);
-//    }
 }

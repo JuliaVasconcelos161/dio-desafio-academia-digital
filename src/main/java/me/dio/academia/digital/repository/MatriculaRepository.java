@@ -14,15 +14,9 @@ public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
     @Query(value = "SELECT * FROM tb_matricula m " +
             "INNER JOIN tb_alunos a ON m.aluno_id = a.id " +
             "WHERE a.bairro = :bairro", nativeQuery = true)
-//    @Query("FROM Matricula m WHERE m.aluno.bairro = :bairro")
+
     List<Matricula> findAlunosMatriculadosBairro(String bairro);
 //    List<Matricula> findByAlunoBairro(String bairro);
-
-//    @Query(value = "DELETE FROM tb_matricula m " +
-//            "USING tb_alunos a " +
-//            "WHERE m.aluno_id = a.id " +
-//            "AND a.id = :id", nativeQuery = true)
-//    void deleteMatriculaAluno(Long id);
 
     @Modifying
     @Query("DELETE FROM Matricula m WHERE m.aluno.id = :id")

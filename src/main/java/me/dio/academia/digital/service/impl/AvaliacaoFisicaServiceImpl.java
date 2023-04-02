@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -74,7 +75,6 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
     public void deleteAllAvaliacaoFisicaAluno(Long idAluno){
         Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
         if(alunoOptional.isPresent()){
-            Aluno aluno = alunoOptional.get();
             List<AvaliacaoFisica> avaliacoesFisicas = this.getAllAvaliacaoFisicaAluno(idAluno);
             if(!avaliacoesFisicas.isEmpty()){
                 avaliacoesFisicas.forEach(avaliacaoFisica -> repository.deleteById(avaliacaoFisica.getId()));
@@ -82,6 +82,31 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
                 throw new IllegalArgumentException("Esse aluno não possui avaliações.");
             }
         } else{
+            throw new IllegalArgumentException("Não foi encontrado nenhum aluno com o id " + idAluno);
+        }
+    }
+    @Transactional
+    @Override
+    public void deleteOneAvaliacaoAluno(Long idAluno, Long idAvaliacao){
+        Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
+        if(alunoOptional.isPresent()){
+            List<AvaliacaoFisica> avaliacoesFisicas = this.getAllAvaliacaoFisicaAluno(idAluno);
+            if(!avaliacoesFisicas.isEmpty()){
+                boolean avaliacaoEncontrada = false;
+                for(AvaliacaoFisica avaliacao: avaliacoesFisicas) {
+                    if (Objects.equals(avaliacao.getId(), idAvaliacao)) {
+                        avaliacaoEncontrada = true;
+                        repository.deleteById(idAvaliacao);
+                        break;
+                    }
+                }
+                if(!avaliacaoEncontrada) {
+                    throw new IllegalArgumentException("O idAvaliacao = " + idAvaliacao + " não foi encontrado para esse aluno.");
+                }
+            } else{
+                throw new IllegalArgumentException("Esse aluno não possui avaliações.");
+            }
+        } else {
             throw new IllegalArgumentException("Não foi encontrado nenhum aluno com o id " + idAluno);
         }
     }

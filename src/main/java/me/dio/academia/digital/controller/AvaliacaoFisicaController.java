@@ -22,11 +22,10 @@ public class AvaliacaoFisicaController {
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody AvaliacaoFisicaForm form){
         try {
-            AvaliacaoFisica avaliacaoFisica = service.create(form);
+            return ResponseEntity.status(HttpStatus.OK).body(service.create(form));
         } catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + form.getAlunoId());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(service.create(form));
     }
 
     @GetMapping("/{id}")
@@ -58,7 +57,6 @@ public class AvaliacaoFisicaController {
     public ResponseEntity<Object> delete(@PathVariable Long id){
         Optional<AvaliacaoFisica> avaliacaoFisicaOptional = service.get(id);
         if(avaliacaoFisicaOptional.isPresent()){
-            AvaliacaoFisica avaliacaoFisica = avaliacaoFisicaOptional.get();
             service.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body("Avaliação deletada com sucesso.");
         }
@@ -81,5 +79,15 @@ public class AvaliacaoFisicaController {
       }catch(IllegalArgumentException e){
           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
       }
+    }
+
+    @DeleteMapping("/aluno/{idAluno}/{idAvaliacao}")
+    public ResponseEntity<String> deleteOneAvaliacaoAluno(@PathVariable Long idAluno, @PathVariable Long idAvaliacao){
+        try {
+            service.deleteOneAvaliacaoAluno(idAluno, idAvaliacao);
+            return ResponseEntity.status(HttpStatus.OK).body("Avaliação excluída com sucesso.");
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

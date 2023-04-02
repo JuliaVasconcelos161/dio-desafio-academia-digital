@@ -23,4 +23,6 @@ public interface IAvaliacaoFisicaService {
 
   void deleteAllAvaliacaoFisicaAluno(Long idAluno);
 
+  void deleteOneAvaliacaoAluno(Long idAluno, Long idAvaliacao);
+
 }

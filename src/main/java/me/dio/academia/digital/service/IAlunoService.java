@@ -24,8 +24,6 @@ public interface IAlunoService {
 
   void delete(Aluno aluno);
 
-  void deleteOneAvaliacaoVinculada(Aluno aluno, Long idAvaliacao);
-
   Boolean isAlunoAssociadoMatricula(Aluno aluno);
 
 }
