@@ -8,6 +8,8 @@ import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.repository.AvaliacaoFisicaRepository;
 import me.dio.academia.digital.service.IAvaliacaoFisicaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -57,6 +59,31 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<AvaliacaoFisica> getAllAvaliacaoFisicaAluno(Long idAluno) {
+        Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
+        if(alunoOptional.isEmpty()){
+            return null;
+        }
+        return alunoOptional.get().getAvaliacoes();
+    }
+    @Transactional
+    @Override
+    public void deleteAllAvaliacaoFisicaAluno(Long idAluno){
+        Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
+        if(alunoOptional.isPresent()){
+            Aluno aluno = alunoOptional.get();
+            List<AvaliacaoFisica> avaliacoesFisicas = this.getAllAvaliacaoFisicaAluno(idAluno);
+            if(!avaliacoesFisicas.isEmpty()){
+                avaliacoesFisicas.forEach(avaliacaoFisica -> repository.deleteById(avaliacaoFisica.getId()));
+            } else {
+                throw new IllegalArgumentException("Esse aluno não possui avaliações.");
+            }
+        } else{
+            throw new IllegalArgumentException("Não foi encontrado nenhum aluno com o id " + idAluno);
+        }
     }
 
 }

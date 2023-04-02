@@ -17,10 +17,10 @@ public interface IAvaliacaoFisicaService {
 
   AvaliacaoFisica update(AvaliacaoFisica avaliacaoFisica, AvaliacaoFisicaUpdateForm formUpdate);
 
-  /**
-   * Deleta uma Avaliação Física específica.
-   * @param id - id da Avaliação Física que será removida.
-   */
   void delete(Long id);
+
+  List<AvaliacaoFisica> getAllAvaliacaoFisicaAluno(Long idAluno);
+
+  void deleteAllAvaliacaoFisicaAluno(Long idAluno);
 
 }

@@ -64,4 +64,22 @@ public class AvaliacaoFisicaController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma avaliação com o id " + id);
     }
+
+    @GetMapping("/aluno/{idAluno}")
+    public ResponseEntity<Object> getAllAvaliacaoFisicaAluno(@PathVariable Long idAluno){
+        if(service.getAllAvaliacaoFisicaAluno(idAluno) == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado nenhum aluno com o id " + idAluno);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllAvaliacaoFisicaAluno(idAluno));
+    }
+
+    @DeleteMapping("/aluno/{idAluno}")
+    public ResponseEntity<String> deleteAllAvaliacaoFisicaAluno(@PathVariable Long idAluno){
+      try{
+          service.deleteAllAvaliacaoFisicaAluno(idAluno);
+          return ResponseEntity.status(HttpStatus.OK).body("Avaliações excluídas com sucesso.");
+      }catch(IllegalArgumentException e){
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+      }
+    }
 }

@@ -79,20 +79,7 @@ public class AlunoServiceImpl implements IAlunoService {
     public void delete(Aluno aluno) {
         repository.delete(aluno);
     }
-    @Override
-    public List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long idAluno) {
-        Optional<Aluno> alunoOptional = repository.findById(idAluno);
-        if(alunoOptional.isEmpty()){
-            return null;
-        }
-        return alunoOptional.get().getAvaliacoes();
-    }
-    @Transactional
-    @Override
-    public void deleteAllAvaliacoesVinculadas(Aluno aluno){
-        List<AvaliacaoFisica> avaliacoes = aluno.getAvaliacoes();
-        avaliacoes.forEach(avaliacaoFisica -> avaliacaoFisicaRepository.deleteById(avaliacaoFisica.getId()));
-    }
+
     @Transactional
     @Override
     public void deleteOneAvaliacaoVinculada(Aluno aluno, Long idAvaliacao){
