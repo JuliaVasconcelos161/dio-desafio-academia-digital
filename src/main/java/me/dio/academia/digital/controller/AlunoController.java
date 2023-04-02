@@ -46,7 +46,7 @@ public class AlunoController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<Aluno>> getAllAlunosPaginado(@PageableDefault(page = 0, size = 3, sort = "id") Pageable pageable){
+    public ResponseEntity<Page<Aluno>> getAllAlunosPaginado(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllPaginado(pageable));
     }
 

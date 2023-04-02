@@ -1,88 +1,86 @@
 <h1>dio-desafio-academia-digital</h1>
 
-<p>Projeto idealizado pela [cami-la](https://www.linkedin.com/in/cami-la/ "cami-la"), instrutora da DIO, para o desafio "
+<p>Projeto idealizado pela <a href="https://www.linkedin.com/in/cami-la/">cami-la</a>, instrutora da DIO, para o desafio "
 Conhecendo Spring Data JPA na prática com Java". Alguns endpoints foram criados acompanhando a instrutora, outros foram implementados posteriormente.</p>
 
 <h3>Endpoints:</h3>
 
-<br/>
-
 <h4>ALUNO</h4>
 
-<h5>POST (/alunos)</h5>
-Exemplo:
-    {
-        "nome": "joiu",
+<p>POST (/alunos)</p>
+<p>Exemplo:</p>
+    <code>{
+        "nome": "Larissa",
         "cpf": "713.676.460-22",
         "bairro": "Deserto",
         "dataDeNascimento": "23/09/2015"
-    }
-GET (/alunos/{idAluno})
+    }</code>
+<p>GET (/alunos/{idAluno})</p>
 
-GET (/alunos/page)
+<p>GET (/alunos/page)</p>
 
-GET (/alunos?dataDeNascimento=10/09/2021)
+<p>GET (/alunos?dataDeNascimento=10/09/2021)</p>
 
-PUT (/alunos/{idAluno})
-Exemplo:
-    {
-        "nome": "Juai",
+<p>PUT (/alunos/{idAluno})</p>
+<p>Exemplo:</p>
+    <code>{
+        "nome": "João",
         "bairro": "Flores",
         "dataDeNascimento": "20/03/2023"
-    }
+    }</code>
 
-DELETE (/alunos/{idAluno})
+<p>DELETE (/alunos/{idAluno})</p>
 
 <br/>
 
-MATRICULA
+<h4>MATRICULA</h4>
 
-POST (/matriculas)
-Exemplo:
-    {
+<p>POST (/matriculas)</p>
+<p>Exemplo:</p>
+    <code>{
         "alunoId": 32
-    }
+    }</code>
 
-GET (/matriculas/{idMatricula})
+<p>GET (/matriculas/{idMatricula})</p>
 
-GET (/matriculas/aluno/{idAluno})
+<p>GET (/matriculas/aluno/{idAluno})</p>
 
-GET (/matriculas)
+<p>GET (/matriculas)
 
-DELETE (/matriculas/{idMatricula})
+<p>DELETE (/matriculas/{idMatricula})</p>
 
-DELETE (/matriculas/aluno/{idAluno})
+<p>DELETE (/matriculas/aluno/{idAluno})</p>
 
 <br/>
 
-AVALIACÃO FÍSICA
+<h4>AVALIACÃO FÍSICA</h4>
 
-POST (/avaliacoes)
-Exemplo:
-    {
+<p>POST (/avaliacoes)</p>
+<p>Exemplo:</p>
+   <code> {
         "alunoId":10,
         "peso":68,
         "altura":175
-    }
+    }</code>
 
-GET (/avaliacoes)
+<p>GET (/avaliacoes)</p>
 
-GET (/avaliacoes/{idAvaliacao})
+<p>GET (/avaliacoes/{idAvaliacao})</p>
 
-GET (/avaliacoes/aluno/{idAluno})
+<p>GET (/avaliacoes/aluno/{idAluno})</p>
 
-UPDATE (/avaliacoes/{idAvaliacao})
-Exemplo:
-    {
+<p>UPDATE (/avaliacoes/{idAvaliacao})</p>
+<p>Exemplo:</p>
+    <code>{
         "peso": 0,
         "altura": 130
-    }
+    }</code>
 
-DELETE (/avaliacoes/aluno/{idAluno})
+<p>DELETE (/avaliacoes/aluno/{idAluno})</p>
 
-DELETE (/avaliacoes/aluno/{idAluno}/{idAvaliacao})
+<p>DELETE (/avaliacoes/aluno/{idAluno}/{idAvaliacao})</p>
 
-DELETE (/avaliacoes/aluno/{idAvaliacao})
+<p>DELETE (/avaliacoes/aluno/{idAvaliacao})</p>
 
 
 
