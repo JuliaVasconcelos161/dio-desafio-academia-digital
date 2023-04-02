@@ -1,7 +1,6 @@
 <h1>dio-desafio-academia-digital</h1>
 
-<p>Projeto idealizado pela <a href="https://www.linkedin.com/in/cami-la/">cami-la</a>, instrutora da DIO, para o desafio "
-Conhecendo Spring Data JPA na prática com Java". Alguns endpoints foram criados acompanhando a instrutora, outros foram implementados posteriormente.</p>
+<p>Projeto de um sistema de academia, na qual os alunos podem ter uma matrícula e várias avaliações de desempenho ao longo do tempo. Ele foi idealizado pela <a href="https://www.linkedin.com/in/cami-la/">cami-la</a>, instrutora da DIO, para o desafio "Conhecendo Spring Data JPA na prática com Java". Alguns endpoints foram criados acompanhando a instrutora, outros foram implementados posteriormente.</p>
 
 <h3>Endpoints:</h3>
 
